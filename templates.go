@@ -3,7 +3,7 @@ package adorn
 import "text/template"
 
 var packageTemplate = template.Must(template.New("package").Parse(
-	"package {{ .Package }}\n\n",
+	"package {{ .Package }}\n",
 ))
 
 var interfaceTemplate = template.Must(template.New("interface").Parse(`
@@ -17,8 +17,8 @@ var funcTemplate = template.Must(template.New("func").Parse(`
 type {{ .FuncTypeName }} func({{ .ArgumentsUnnamed }}) {{ .ReturnType }}
 
 // {{ .MethodName }} calls f.
-func (f {{ .FuncTypeName }}) {{ .MethodName }}({{ .ArgumentsUnnamed }}) {{ .ReturnType }} {
-	return f()
+func (f {{ .FuncTypeName }}) {{ .MethodName }}({{ .ArgumentsNamed }}) {{ .ReturnType }} {
+	return f({{ .ArgumentsCalling }})
 }
 `))
 

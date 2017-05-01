@@ -22,10 +22,11 @@ func init() {
 
 func generate() error {
 	cfg := adorn.Config{
-		Package:       "pkg",
-		TypeName:      "Handler",
-		MethodName:    "ServeHTTP",
-		ArgumentTypes: []string{"http.ResponseWriter", "*http.Request"},
+		Package:       "manners",
+		TypeName:      "Greeter",
+		MethodName:    "Greeting",
+		ArgumentTypes: []string{"string", "string"},
+		ReturnType:    "string",
 	}
 	return adorn.Generate(cfg, os.Stdout)
 }
