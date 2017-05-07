@@ -35,9 +35,24 @@ func (c Config) ArgumentNames() []string {
 	return names
 }
 
+func (c Config) ArgumentTypesDeduped() []string {
+	n := len(c.ArgumentTypes)
+	types := make([]string, n)
+	if n == 0 {
+		return types
+	}
+	types[n-1] = c.ArgumentTypes[n-1]
+	for i := 0; i < n-1; i++ {
+		if c.ArgumentTypes[i] != c.ArgumentTypes[i+1] {
+			types[i] = c.ArgumentTypes[i]
+		}
+	}
+	return types
+}
+
 func (c Config) ArgumentsNamed() (string, error) {
 	names := c.ArgumentNames()
-	types := c.ArgumentTypes
+	types := c.ArgumentTypesDeduped()
 	if len(names) != len(types) {
 		return "", errors.New("mismatch in number of argument names and argument types")
 	}
@@ -45,7 +60,10 @@ func (c Config) ArgumentsNamed() (string, error) {
 	n := len(names)
 	args := make([]string, n)
 	for i := 0; i < n; i++ {
-		args[i] = names[i] + " " + types[i]
+		args[i] = names[i]
+		if types[i] != "" {
+			args[i] += " " + types[i]
+		}
 	}
 
 	return strings.Join(args, ", "), nil
