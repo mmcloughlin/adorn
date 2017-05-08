@@ -8,16 +8,16 @@ var packageTemplate = template.Must(template.New("package").Parse(
 
 var interfaceTemplate = template.Must(template.New("interface").Parse(`
 type {{ .TypeName }} interface {
-	{{ .MethodName }}({{ .ArgumentsUnnamed }}) {{ .ReturnType }}
+	{{ .MethodName }}({{ .ArgumentsUnnamed }}) {{ .ReturnSignature }}
 }
 `))
 
 var funcTemplate = template.Must(template.New("func").Parse(`
 // {{ .FuncTypeName }} is an adapter to allow ordinary functions to be used as {{ .TypeName }} implementations.
-type {{ .FuncTypeName }} func({{ .ArgumentsUnnamed }}) {{ .ReturnType }}
+type {{ .FuncTypeName }} func({{ .ArgumentsUnnamed }}) {{ .ReturnSignature }}
 
 // {{ .MethodName }} calls f.
-func (f {{ .FuncTypeName }}) {{ .MethodName }}({{ .ArgumentsNamed }}) {{ .ReturnType }} {
+func (f {{ .FuncTypeName }}) {{ .MethodName }}({{ .ArgumentsNamed }}) {{ .ReturnSignature }} {
 	return f({{ .ArgumentsCalling }})
 }
 `))

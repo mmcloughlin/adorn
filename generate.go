@@ -15,7 +15,7 @@ type Config struct {
 	TypeName      string
 	MethodName    string
 	ArgumentTypes []string
-	ReturnType    string
+	ReturnTypes   []string
 }
 
 func (c Config) FuncTypeName() string {
@@ -71,6 +71,17 @@ func (c Config) ArgumentsNamed() (string, error) {
 
 func (c Config) ArgumentsCalling() string {
 	return strings.Join(c.ArgumentNames(), ", ")
+}
+
+func (c Config) ReturnSignature() string {
+	switch len(c.ReturnTypes) {
+	case 0:
+		return ""
+	case 1:
+		return c.ReturnTypes[0]
+	default:
+		return "(" + strings.Join(c.ReturnTypes, ", ") + ")"
+	}
 }
 
 func Generate(c Config, w io.Writer) error {

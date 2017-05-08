@@ -26,7 +26,7 @@ func generate() error {
 		TypeName:      "Greeter",
 		MethodName:    "Greeting",
 		ArgumentTypes: []string{"string", "string"},
-		ReturnType:    "string",
+		ReturnTypes:   []string{"string"},
 	}
 	return adorn.Generate(cfg, os.Stdout)
 }
