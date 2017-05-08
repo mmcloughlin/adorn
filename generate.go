@@ -10,6 +10,7 @@ import (
 	"errors"
 )
 
+// Config encapsulates parameters for code generation.
 type Config struct {
 	Package       string
 	TypeName      string
@@ -18,14 +19,18 @@ type Config struct {
 	ReturnTypes   []string
 }
 
+// FuncTypeName returns the name of the plain function type that implements the
+// interface. This will be TypeName with "Func" appended.
 func (c Config) FuncTypeName() string {
 	return c.TypeName + "Func"
 }
 
+// ArgumentsUnnamed returns the list of argument types joined with commas.
 func (c Config) ArgumentsUnnamed() string {
 	return strings.Join(c.ArgumentTypes, ", ")
 }
 
+// ArgumentNames returns the names of the arguments.
 func (c Config) ArgumentNames() []string {
 	n := len(c.ArgumentTypes)
 	names := make([]string, n)
@@ -35,6 +40,8 @@ func (c Config) ArgumentNames() []string {
 	return names
 }
 
+// ArgumentTypesDeduped returns the list of argument types, where runs of the same types
+// are collapsed.
 func (c Config) ArgumentTypesDeduped() []string {
 	n := len(c.ArgumentTypes)
 	types := make([]string, n)
@@ -50,6 +57,7 @@ func (c Config) ArgumentTypesDeduped() []string {
 	return types
 }
 
+// ArgumentsNamed returns the arguments signature with names.
 func (c Config) ArgumentsNamed() (string, error) {
 	names := c.ArgumentNames()
 	types := c.ArgumentTypesDeduped()
@@ -69,10 +77,13 @@ func (c Config) ArgumentsNamed() (string, error) {
 	return strings.Join(args, ", "), nil
 }
 
+// ArgumentsCalling returns the comma separated list of argument names, used when
+// calling the function or method
 func (c Config) ArgumentsCalling() string {
 	return strings.Join(c.ArgumentNames(), ", ")
 }
 
+// ReturnSignature returns the specification of the return type.
 func (c Config) ReturnSignature() string {
 	switch len(c.ReturnTypes) {
 	case 0:
@@ -84,6 +95,8 @@ func (c Config) ReturnSignature() string {
 	}
 }
 
+// Generate generates code for the given type Config and writes it to the given
+// Writer.
 func Generate(c Config, w io.Writer) error {
 	templates := []*template.Template{
 		packageTemplate,
@@ -100,6 +113,7 @@ func Generate(c Config, w io.Writer) error {
 	return nil
 }
 
+// GenerateString returns code for the given type Config.
 func GenerateString(c Config) (string, error) {
 	var b bytes.Buffer
 	err := Generate(c, &b)
