@@ -1,56 +1,29 @@
-package adorn_test
+package adorn
 
 import (
-	"fmt"
+	"io/ioutil"
+	"path/filepath"
 	"strings"
+	"testing"
 
-	"github.com/mmcloughlin/adorn"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-func ExampleConfig_FuncTypeName() {
-	cfg := adorn.Config{
-		TypeName: "Greeter",
+func TestVerifyTestCases(t *testing.T) {
+	filenames, err := filepath.Glob("./testcases/*.json")
+	require.NoError(t, err)
+	for _, filename := range filenames {
+		base := filepath.Base(filename)
+		t.Run(base, func(t *testing.T) {
+			cfg, err := LoadConfigFromFile(filename)
+			require.NoError(t, err)
+			src, err := GenerateString(cfg)
+			require.NoError(t, err)
+			noext := strings.TrimSuffix(filename, filepath.Ext(filename))
+			expect, err := ioutil.ReadFile(noext + ".go")
+			require.NoError(t, err)
+			assert.Equal(t, string(expect), src)
+		})
 	}
-	fmt.Println(cfg.FuncTypeName())
-	// Output: GreeterFunc
-}
-
-func ExampleConfig_ArgumentsUnnamed() {
-	cfg := adorn.Config{
-		ArgumentTypes: []string{"int", "int", "string", "string", "string"},
-	}
-	fmt.Println(cfg.ArgumentsUnnamed())
-	// Output: int, int, string, string, string
-}
-
-func ExampleConfig_ArgumentNames() {
-	cfg := adorn.Config{
-		ArgumentTypes: []string{"int", "string", "string"},
-	}
-	fmt.Println(cfg.ArgumentNames())
-	// Output: [a0 a1 a2]
-}
-
-func ExampleConfig_ArgumentTypesDeduped() {
-	cfg := adorn.Config{
-		ArgumentTypes: []string{"int", "int", "string", "string", "string"},
-	}
-	fmt.Println(strings.Join(cfg.ArgumentTypesDeduped(), ","))
-	// Output: ,int,,,string
-}
-
-func ExampleConfig_ReturnSignature_single() {
-	cfg := adorn.Config{
-		ReturnTypes: []string{"int"},
-	}
-	fmt.Println(cfg.ReturnSignature())
-	// Output: int
-}
-
-func ExampleConfig_ReturnSignature_multiple() {
-	cfg := adorn.Config{
-		ReturnTypes: []string{"string", "error"},
-	}
-	fmt.Println(cfg.ReturnSignature())
-	// Output: (string, error)
 }

@@ -1,3 +1,6 @@
 package: github.com/mmcloughlin/adorn
 import:
 - package: github.com/spf13/cobra
+- package: github.com/stretchr/testify
+  subpackages:
+  - require

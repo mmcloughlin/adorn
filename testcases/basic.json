@@ -1,0 +1,7 @@
+{
+    "package": "testcases",
+    "type": "Basic",
+    "method": "Method",
+    "argument_types": ["int"],
+    "return": ["string"]
+}

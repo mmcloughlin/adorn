@@ -1,10 +1,14 @@
-hash: 76be89779b20ff7ae2ebe320260aa34c1f818eb4388f1091a22fb7c0219bd54f
-updated: 2017-05-07T16:29:19.895768876-07:00
+hash: 8011b09689a70585e14bf6089b5754b4a949ae637ec4249ab722a75c165d47fd
+updated: 2017-05-09T22:45:48.879966165-07:00
 imports:
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/spf13/cobra
-  version: d83a1d7ccd00a9e1b5d234653837b498b9b27abd
+  version: 1362f95a8d6fe330d00a64380d6e0b65f4992c72
 - name: github.com/spf13/pflag
-  version: 80fe0fb4eba54167e2ccae1c6c950e72abf61b73
+  version: e57e3eeb33f795204c1ca35f56c44f83227c6e66
+- name: github.com/stretchr/testify
+  version: 4d4bfba8f1d1027c4fdbe371823030df51419987
+  subpackages:
+  - require
 devImports: []
