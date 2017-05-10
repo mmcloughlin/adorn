@@ -15,6 +15,22 @@ func ExampleConfig_FuncTypeName() {
 	// Output: GreeterFunc
 }
 
+func ExampleConfig_ArgumentsUnnamed() {
+	cfg := adorn.Config{
+		ArgumentTypes: []string{"int", "int", "string", "string", "string"},
+	}
+	fmt.Println(cfg.ArgumentsUnnamed())
+	// Output: int, int, string, string, string
+}
+
+func ExampleConfig_ArgumentNames() {
+	cfg := adorn.Config{
+		ArgumentTypes: []string{"int", "string", "string"},
+	}
+	fmt.Println(cfg.ArgumentNames())
+	// Output: [a0 a1 a2]
+}
+
 func ExampleConfig_ArgumentTypesDeduped() {
 	cfg := adorn.Config{
 		ArgumentTypes: []string{"int", "int", "string", "string", "string"},

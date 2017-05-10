@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	cfg    adorn.Config
-	output string
+	cfg      adorn.Config
+	filename string
+	output   string
 )
 
 func init() {
@@ -19,6 +20,7 @@ func init() {
 	generateCmd.Flags().StringVarP(&cfg.MethodName, "method", "m", "", "method name")
 	generateCmd.Flags().StringSliceVarP(&cfg.ArgumentTypes, "args", "a", nil, "argument types")
 	generateCmd.Flags().StringSliceVarP(&cfg.ReturnTypes, "return", "r", nil, "return types")
+	generateCmd.Flags().StringVarP(&filename, "config", "c", "", "config filename")
 	generateCmd.Flags().StringVarP(&output, "output", "o", "", "output filename (defaults to stdout)")
 
 	RootCmd.AddCommand(generateCmd)
@@ -29,6 +31,14 @@ var generateCmd = &cobra.Command{
 	Use:   "generate",
 	Short: "Generate type and adornments",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		var err error
+		if filename != "" {
+			cfg, err = adorn.LoadConfigFromFile(filename)
+			if err != nil {
+				return err
+			}
+		}
+
 		var w io.Writer = os.Stdout
 		if output != "" {
 			f, err := os.Create(output)
@@ -38,6 +48,7 @@ var generateCmd = &cobra.Command{
 			defer f.Close()
 			w = f
 		}
+
 		return adorn.Generate(cfg, w)
 	},
 }

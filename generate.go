@@ -2,8 +2,10 @@ package adorn
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"strings"
 	"text/template"
 
@@ -12,11 +14,25 @@ import (
 
 // Config encapsulates parameters for code generation.
 type Config struct {
-	Package       string
-	TypeName      string
-	MethodName    string
-	ArgumentTypes []string
-	ReturnTypes   []string
+	Package       string   `json:"package"`
+	TypeName      string   `json:"type"`
+	MethodName    string   `json:"method"`
+	ArgumentTypes []string `json:"argument_types"`
+	ReturnTypes   []string `json:"return"`
+}
+
+// LoadConfigFromFile loads configuration from filename in JSON format.
+func LoadConfigFromFile(filename string) (Config, error) {
+	data, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return Config{}, err
+	}
+	var cfg Config
+	err = json.Unmarshal(data, &cfg)
+	if err != nil {
+		return Config{}, err
+	}
+	return cfg, nil
 }
 
 // FuncTypeName returns the name of the plain function type that implements the
