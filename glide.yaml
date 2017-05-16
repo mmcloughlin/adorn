@@ -8,3 +8,4 @@ import:
   subpackages:
   - imports
 - package: github.com/pkg/errors
+- package: github.com/serenize/snaker
