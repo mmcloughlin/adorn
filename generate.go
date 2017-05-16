@@ -10,18 +10,20 @@ import (
 	"text/template"
 
 	"github.com/pkg/errors"
+	"github.com/serenize/snaker"
 
 	"golang.org/x/tools/imports"
 )
 
 // Config encapsulates parameters for code generation.
 type Config struct {
-	Package       string   `json:"package"`
-	Documentation string   `json:"doc"`
-	TypeName      string   `json:"type"`
-	MethodName    string   `json:"method"`
-	ArgumentTypes []string `json:"argument_types"`
-	ReturnTypes   []string `json:"return"`
+	Package        string   `json:"package"`
+	Documentation  string   `json:"doc"`
+	TypeName       string   `json:"type"`
+	MethodName     string   `json:"method"`
+	ArgumentTypes  []string `json:"argument_types"`
+	ReturnTypes    []string `json:"return"`
+	OutputFilename string   `json:"filename"`
 }
 
 // LoadConfigFromFile loads configuration from filename in JSON format.
@@ -114,6 +116,16 @@ func (c Config) ReturnSignature() string {
 	}
 }
 
+// Filename returns the file path to the output. This is OutputFilename if
+// specified, otherwise the snake case version of TypeName with the ".go"
+// extension.
+func (c Config) Filename() string {
+	if c.OutputFilename != "" {
+		return c.OutputFilename
+	}
+	return snaker.CamelToSnake(c.TypeName) + ".go"
+}
+
 // Generate generates code for the given type Config and writes it to the given
 // Writer.
 func Generate(c Config, w io.Writer) error {
@@ -144,7 +156,7 @@ func GenerateString(c Config) (string, error) {
 		}
 	}
 
-	src, err := imports.Process("", b.Bytes(), nil)
+	src, err := imports.Process(c.Filename(), b.Bytes(), nil)
 	if err != nil {
 		return "", errors.Wrap(err, "error processing goimports")
 	}
