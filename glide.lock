@@ -1,14 +1,18 @@
-hash: 8011b09689a70585e14bf6089b5754b4a949ae637ec4249ab722a75c165d47fd
-updated: 2017-05-09T22:45:48.879966165-07:00
+hash: b9f320e0cad4dd9e8965ee72358589ddfbdc58cdc4724a101b207b8fc03b5535
+updated: 2017-05-15T22:12:36.019928818-07:00
 imports:
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/spf13/cobra
-  version: 1362f95a8d6fe330d00a64380d6e0b65f4992c72
+  version: 4cdb38c072b86bf795d2c81de50784d9fdd6eb77
 - name: github.com/spf13/pflag
   version: e57e3eeb33f795204c1ca35f56c44f83227c6e66
 - name: github.com/stretchr/testify
   version: 4d4bfba8f1d1027c4fdbe371823030df51419987
   subpackages:
   - require
+- name: golang.org/x/tools
+  version: bf4b54dc687c73b6ef63de8b8abf0ad3951e3edc
+  subpackages:
+  - imports
 devImports: []
