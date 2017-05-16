@@ -19,7 +19,7 @@ type {{ .FuncTypeName }} func({{ .ArgumentsUnnamed }}){{if .ReturnSignature}} {{
 
 // {{ .MethodName }} calls f.
 func (f {{ .FuncTypeName }}) {{ .MethodName }}({{ .ArgumentsNamed }}){{if .ReturnSignature}} {{ .ReturnSignature }}{{end}} {
-	return f({{ .ArgumentsCalling }})
+	{{if .ReturnSignature}}return {{end}}f({{ .ArgumentsCalling }})
 }
 `))
 

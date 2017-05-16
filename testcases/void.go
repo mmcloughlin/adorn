@@ -10,7 +10,7 @@ type VoiderFunc func()
 
 // Void calls f.
 func (f VoiderFunc) Void() {
-	return f()
+	f()
 }
 
 // Compile time assertion that VoiderFunc implements Voider.
