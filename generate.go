@@ -9,6 +9,8 @@ import (
 	"strings"
 	"text/template"
 
+	"golang.org/x/tools/imports"
+
 	"errors"
 )
 
@@ -138,5 +140,11 @@ func GenerateString(c Config) (string, error) {
 			return "", err
 		}
 	}
-	return b.String(), nil
+
+	src, err := imports.Process("", b.Bytes(), nil)
+	if err != nil {
+		return "", err
+	}
+
+	return string(src), nil
 }
