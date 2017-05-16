@@ -115,27 +115,28 @@ func (c Config) ReturnSignature() string {
 // Generate generates code for the given type Config and writes it to the given
 // Writer.
 func Generate(c Config, w io.Writer) error {
+	src, err := GenerateString(c)
+	if err != nil {
+		return err
+	}
+	_, err = w.Write([]byte(src))
+	return err
+}
+
+// GenerateString returns code for the given type Config.
+func GenerateString(c Config) (string, error) {
 	templates := []*template.Template{
 		packageTemplate,
 		interfaceTemplate,
 		funcTemplate,
 		assertionTemplate,
 	}
-	for _, tmpl := range templates {
-		err := tmpl.Execute(w, c)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// GenerateString returns code for the given type Config.
-func GenerateString(c Config) (string, error) {
 	var b bytes.Buffer
-	err := Generate(c, &b)
-	if err != nil {
-		return "", err
+	for _, tmpl := range templates {
+		err := tmpl.Execute(&b, c)
+		if err != nil {
+			return "", err
+		}
 	}
 	return b.String(), nil
 }
