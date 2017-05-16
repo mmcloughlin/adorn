@@ -13,6 +13,6 @@ install:
 script:
   - $GOPATH/bin/glide install
   - gometalinter --vendor --config=gometalinter.json ./...
-  - go install github.com/mmcloughlin/adorn/cmd/...
+  - go install $(glide novendor)
   - overalls -project=github.com/mmcloughlin/adorn -- -v
   - goveralls -coverprofile=overalls.coverprofile -service=travis-ci
