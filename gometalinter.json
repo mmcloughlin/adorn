@@ -8,12 +8,10 @@
     "dupl",
     "gas",
     "gocyclo",
-    "lll",
     "misspell",
     "goconst"
   ],
   "Skip": [
     "mocks"
-  ],
-  "LineLength": 120
+  ]
 }
