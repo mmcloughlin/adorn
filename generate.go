@@ -9,9 +9,9 @@ import (
 	"strings"
 	"text/template"
 
-	"golang.org/x/tools/imports"
+	"github.com/pkg/errors"
 
-	"errors"
+	"golang.org/x/tools/imports"
 )
 
 // Config encapsulates parameters for code generation.
@@ -28,12 +28,12 @@ type Config struct {
 func LoadConfigFromFile(filename string) (Config, error) {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return Config{}, err
+		return Config{}, errors.Wrap(err, "could not read config file")
 	}
 	var cfg Config
 	err = json.Unmarshal(data, &cfg)
 	if err != nil {
-		return Config{}, err
+		return Config{}, errors.Wrap(err, "could not read config file as json")
 	}
 	return cfg, nil
 }
@@ -119,10 +119,13 @@ func (c Config) ReturnSignature() string {
 func Generate(c Config, w io.Writer) error {
 	src, err := GenerateString(c)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "error generating source code")
 	}
 	_, err = w.Write([]byte(src))
-	return err
+	if err != nil {
+		return errors.Wrap(err, "error writing source code")
+	}
+	return nil
 }
 
 // GenerateString returns code for the given type Config.
@@ -137,13 +140,13 @@ func GenerateString(c Config) (string, error) {
 	for _, tmpl := range templates {
 		err := tmpl.Execute(&b, c)
 		if err != nil {
-			return "", err
+			return "", errors.Wrap(err, "error executing template")
 		}
 	}
 
 	src, err := imports.Process("", b.Bytes(), nil)
 	if err != nil {
-		return "", err
+		return "", errors.Wrap(err, "error processing goimports")
 	}
 
 	return string(src), nil
