@@ -1,8 +1,10 @@
-hash: b9f320e0cad4dd9e8965ee72358589ddfbdc58cdc4724a101b207b8fc03b5535
-updated: 2017-05-15T22:12:36.019928818-07:00
+hash: a6522c74e10e6363a08a4b8b8afe2c1ef4535cf9c474c25b457664e3c9d33d6f
+updated: 2017-05-15T22:25:50.813872927-07:00
 imports:
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/pkg/errors
+  version: c605e284fe17294bda444b34710735b29d1a9d90
 - name: github.com/spf13/cobra
   version: 4cdb38c072b86bf795d2c81de50784d9fdd6eb77
 - name: github.com/spf13/pflag
@@ -15,4 +17,5 @@ imports:
   version: bf4b54dc687c73b6ef63de8b8abf0ad3951e3edc
   subpackages:
   - imports
+  - go/ast/astutil
 devImports: []
