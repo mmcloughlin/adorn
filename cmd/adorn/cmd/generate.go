@@ -11,7 +11,6 @@ import (
 var (
 	cfg      adorn.Config
 	filename string
-	output   string
 )
 
 func init() {
