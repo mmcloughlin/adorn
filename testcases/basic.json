@@ -1,5 +1,6 @@
 {
     "package": "testcases",
+    "doc": "Basic is pretty simple.",
     "type": "Basic",
     "method": "Method",
     "argument_types": ["int"],

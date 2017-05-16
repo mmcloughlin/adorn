@@ -15,6 +15,7 @@ import (
 // Config encapsulates parameters for code generation.
 type Config struct {
 	Package       string   `json:"package"`
+	Documentation string   `json:"doc"`
 	TypeName      string   `json:"type"`
 	MethodName    string   `json:"method"`
 	ArgumentTypes []string `json:"argument_types"`

@@ -1,5 +1,6 @@
 package testcases
 
+// Basic is pretty simple.
 type Basic interface {
 	Method(int) string
 }

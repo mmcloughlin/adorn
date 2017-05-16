@@ -7,6 +7,7 @@ var packageTemplate = template.Must(template.New("package").Parse(
 ))
 
 var interfaceTemplate = template.Must(template.New("interface").Parse(`
+{{if .Documentation }}// {{ .Documentation }}{{end}}
 type {{ .TypeName }} interface {
 	{{ .MethodName }}({{ .ArgumentsUnnamed }}) {{ .ReturnSignature }}
 }
