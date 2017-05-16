@@ -2,14 +2,14 @@ package testcases
 
 // Voider does something and returns nothing.
 type Voider interface {
-	Void() 
+	Void()
 }
 
 // VoiderFunc is an adapter to allow ordinary functions to be used as Voider implementations.
-type VoiderFunc func() 
+type VoiderFunc func()
 
 // Void calls f.
-func (f VoiderFunc) Void()  {
+func (f VoiderFunc) Void() {
 	return f()
 }
 
