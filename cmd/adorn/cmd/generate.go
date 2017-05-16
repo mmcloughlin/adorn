@@ -11,6 +11,7 @@ import (
 var (
 	cfg      adorn.Config
 	filename string
+	output   string
 )
 
 func init() {
@@ -19,8 +20,8 @@ func init() {
 	generateCmd.Flags().StringVarP(&cfg.MethodName, "method", "m", "", "method name")
 	generateCmd.Flags().StringSliceVarP(&cfg.ArgumentTypes, "args", "a", nil, "argument types")
 	generateCmd.Flags().StringSliceVarP(&cfg.ReturnTypes, "return", "r", nil, "return types")
-	generateCmd.Flags().StringVarP(&cfg.OutputFilename, "output", "o", "", "output filename (defaults to stdout)")
 	generateCmd.Flags().StringVarP(&filename, "config", "c", "", "config filename")
+	generateCmd.Flags().StringVarP(&output, "output", "o", "", "output filename (defaults to stdout)")
 
 	RootCmd.AddCommand(generateCmd)
 }
@@ -37,10 +38,11 @@ var generateCmd = &cobra.Command{
 				return err
 			}
 		}
+		cfg.OutputFilename = output
 
 		var w io.Writer = os.Stdout
-		if cfg.OutputFilename != "" {
-			f, err := os.Create(cfg.OutputFilename)
+		if output != "" {
+			f, err := os.Create(output)
 			if err != nil {
 				return err
 			}
