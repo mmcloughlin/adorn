@@ -14,6 +14,7 @@ func TestVerifyTestCases(t *testing.T) {
 	filenames, err := filepath.Glob("./testcases/*.json")
 	require.NoError(t, err)
 	for _, filename := range filenames {
+		filename := filename // scopelint
 		base := filepath.Base(filename)
 		t.Run(base, func(t *testing.T) {
 			cfg, err := LoadConfigFromFile(filename)
